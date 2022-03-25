@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Contact Us";
+}
+<h1>@ViewData["Title"]</h1>
+
+<style>
+    input[type=text], select, textarea {
+        width: 100%; 
+        padding: 12px;
+        border-radius: 4px; 
+        box-sizing: border-box; 
+        margin-top: 6px;
+        margin-bottom: 16px; 
+        resize: vertical;
+    }
+
+    
+    input[type=submit] {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .container {
+        border-radius: 5px;
+        padding: 20px;
+    }
+</style>
+
+<div class="container">
+    <form action="">
+
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+        <label for="city">City</label>
+        <select id="city" name="city">
+            <option value="Manila City">Manila City</option>
+            <option value="Quezon City">Quezon City</option>
+            <option value="Makati City">Makati City</option>
+        </select>
+
+        <label for="subject">Subject</label>
+        <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+        <input type="submit" value="Submit">
+
+    </form>
+</div>

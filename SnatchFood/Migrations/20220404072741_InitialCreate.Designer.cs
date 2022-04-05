@@ -10,8 +10,8 @@ using SnatchFood.Data;
 namespace SnatchFood.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220325141504_CreateIdentitySchemaAndMenu")]
-    partial class CreateIdentitySchemaAndMenu
+    [Migration("20220404072741_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

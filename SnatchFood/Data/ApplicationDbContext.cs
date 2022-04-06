@@ -18,5 +18,10 @@ namespace SnatchFood.Data
         }
 
         public DbSet<Menu> Menus { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<Orders> Orders { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Restaurants> Restaurants { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

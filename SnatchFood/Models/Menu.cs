@@ -12,8 +12,15 @@ namespace SnatchFood.Models
         [Key]
         public int MenuId { get; set; }
 
+        public List<Restaurants> Restaurants { get; set; }
+
         [Required(ErrorMessage = "Required.")]
+        [Display(Name = "Menu Name")]
         public string MenuName { get; set; }
+
+        //Image
+        [Display(Name = "Image")]
+        public string ImagePath { get; set; }
 
         [Required(ErrorMessage = "Required.")]
         public decimal Price { get; set; }

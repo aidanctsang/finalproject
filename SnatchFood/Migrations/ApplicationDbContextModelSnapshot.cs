@@ -154,6 +154,21 @@ namespace SnatchFood.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("SnatchFood.Models.Category", b =>
+                {
+                    b.Property<int>("CatId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CatId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("SnatchFood.Models.Menu", b =>
                 {
                     b.Property<int>("MenuId")
@@ -167,9 +182,15 @@ namespace SnatchFood.Migrations
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MenuName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OrderDetailsId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -179,7 +200,123 @@ namespace SnatchFood.Migrations
 
                     b.HasKey("MenuId");
 
+                    b.HasIndex("OrderDetailsId");
+
                     b.ToTable("Menus");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.OrderDetails", b =>
+                {
+                    b.Property<int>("OrderDetailsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("OrderDetailsId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.Orders", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OrderDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OrderStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("OrderDetailsId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("DatePaid")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OrderDetailsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PaymentId");
+
+                    b.HasIndex("OrderDetailsId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.Restaurants", b =>
+                {
+                    b.Property<int>("RestaurantId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CatId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryCatId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RestaurantName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RestaurantId");
+
+                    b.HasIndex("CategoryCatId");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("SnatchFood.Models.Users", b =>
@@ -302,6 +439,69 @@ namespace SnatchFood.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.Menu", b =>
+                {
+                    b.HasOne("SnatchFood.Models.OrderDetails", null)
+                        .WithMany("MenuId")
+                        .HasForeignKey("OrderDetailsId");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.Orders", b =>
+                {
+                    b.HasOne("SnatchFood.Models.OrderDetails", null)
+                        .WithMany("OrderId")
+                        .HasForeignKey("OrderDetailsId");
+
+                    b.HasOne("SnatchFood.Models.Payment", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("PaymentId");
+
+                    b.HasOne("SnatchFood.Models.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UsersId");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.Payment", b =>
+                {
+                    b.HasOne("SnatchFood.Models.OrderDetails", null)
+                        .WithMany("PaymentId")
+                        .HasForeignKey("OrderDetailsId");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.Restaurants", b =>
+                {
+                    b.HasOne("SnatchFood.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryCatId");
+
+                    b.HasOne("SnatchFood.Models.Menu", null)
+                        .WithMany("Restaurants")
+                        .HasForeignKey("MenuId");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.Menu", b =>
+                {
+                    b.Navigation("Restaurants");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.OrderDetails", b =>
+                {
+                    b.Navigation("MenuId");
+
+                    b.Navigation("OrderId");
+
+                    b.Navigation("PaymentId");
+                });
+
+            modelBuilder.Entity("SnatchFood.Models.Payment", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

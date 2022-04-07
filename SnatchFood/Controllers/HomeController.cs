@@ -7,13 +7,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+using SnatchFood.Data;
+using SnatchFood.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
+
 namespace SnatchFood.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
         {
             _logger = logger;
         }
@@ -37,11 +41,6 @@ namespace SnatchFood.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public IActionResult MainPage()
-        {
-            return View();
         }
     }
 }

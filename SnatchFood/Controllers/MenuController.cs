@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 using SnatchFood.Data;
 using SnatchFood.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SnatchFood.Controllers
 {
-    [Authorize]
     public class MenuController : Controller
     {
         private readonly ApplicationDbContext _context;

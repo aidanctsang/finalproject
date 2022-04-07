@@ -33,8 +33,8 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RestaurantId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RestaurantId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RestaurantId">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.RestaurantId"
+                   onclick='return confirm("Are you sure?");'>Delete</a>
             </td>
         </tr>
 }

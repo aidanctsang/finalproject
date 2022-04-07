@@ -42,7 +42,7 @@ namespace SnatchFood.Controllers
             {
                 RestaurantName = record.RestaurantName,
                 Category = selectedCategory,
-                CatId = record.CatId
+                CatId = record.CatId    
             };
 
 

@@ -7,7 +7,7 @@ namespace SnatchFood.Models.ViewModels
 {
     public class RestoVM
     {
-        public IEnumerable<Restaurants> RestaurantList { get; set; }
-        public IEnumerable<Category> CategoryList { get; set; }
+        public List<Restaurants> RestaurantList { get; set; }
+        public List<Category> CategoryList { get; set; }
     }
 }

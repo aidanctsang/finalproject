@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SnatchFood.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-using SnatchFood.Data;
+using SnatchFood.Models;
 using SnatchFood.Models.ViewModels;
+using SnatchFood.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace SnatchFood.Controllers
@@ -16,10 +16,12 @@ namespace SnatchFood.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -41,6 +43,31 @@ namespace SnatchFood.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult ViewRestaurant(int? c)
+        {
+            var restaurant = _context.Restaurants
+                .Include(p => p.Category)
+                .ToList();
+
+            if (c != null)
+            {
+                restaurant = restaurant.Where(p => p.CatId == (int)c)
+                    .ToList();
+            }
+
+            var categories = _context.Categories
+                .OrderBy(c => c.Name)
+                .ToList();
+
+
+            var record = new RestoVM()
+            {
+                RestaurantList = restaurant,
+                CategoryList = categories
+            };
+            return View(record);
         }
     }
 }

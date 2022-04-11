@@ -15,44 +15,5 @@
     <h2>Food Delivery at your service!</h2>
     <br />
     <p>We will serve your food as fast as possible! Register now so you can start snatching your food!</p>
+    <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Home" asp-action="ViewRestaurant">View Restaurants</a>
 </div>
-
-<div class="container">
-    <div class="text-center">
-        <button class="btn btn-dark filter-button" data-filter="all">All</button>
-        @foreach (var obj in Model.Category)
-        {
-            <button class="btn btn-outline-secondary filter-button" data-filter="@obj.Name.Replace(' ','_')">
-                @obj.Category
-            </button>
-        }
-    </div>
-    <br />
-    <div class="row">
-        @foreach (var resto in Model.Restaurant)
-        {
-            <partial name="_RestaurantCard" model="resto" />//display all Restaurant
-        }
-    </div>
-</div>
-
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-
-            $(".filter-button").click(function () {
-
-                var value = $(this).attr('data-filter');
-                if (value == "all") {
-                    $('.filter').show('1000');
-                }
-                else {
-                    $(".filter").not('.' + value).hide('3000');
-                    $('.filter').filter('.' + value).show('3000');
-
-                }
-            });
-
-        });
-    </script>
-}

@@ -12,21 +12,27 @@ namespace SnatchFood.Models
         [Key]
         public int MenuId { get; set; }
 
-        public List<Restaurants> Restaurants { get; set; }
-
-        [Required(ErrorMessage = "Required.")]
         [Display(Name = "Menu Name")]
+        [Required(ErrorMessage = "Required.")]
         public string MenuName { get; set; }
 
-        //Image
+        [DataType(DataType.MultilineText)]
+        public string Description { get; set; }
+
         [Display(Name = "Image")]
         public string ImagePath { get; set; }
 
-        [Required(ErrorMessage = "Required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Price must be greater than 0.")]
         public decimal Price { get; set; }
+        
+        [Display(Name = "Quantity")]
+        [Range(1, int.MaxValue)]
+        public int Qty { get; set; }
 
         [Required(ErrorMessage = "Required")]
-        public int Qty { get; set; }
+        public virtual Restaurants Restaurants { get; set; }
+
+        public int? RestoId { get; set; }
 
         [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }

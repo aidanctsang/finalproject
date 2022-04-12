@@ -26,7 +26,7 @@ namespace SnatchFood.Models
         public decimal Price { get; set; }
         
         [Display(Name = "Quantity")]
-        [Range(1, int.MaxValue)]
+        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 0.")]
         public int Qty { get; set; }
 
         [Required(ErrorMessage = "Required")]

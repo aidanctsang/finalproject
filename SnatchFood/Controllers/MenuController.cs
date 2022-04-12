@@ -80,6 +80,7 @@ namespace SnatchFood.Controllers
             {
                 return RedirectToAction("Index");
             }
+
             return View(menu);
 
         }
@@ -94,10 +95,11 @@ namespace SnatchFood.Controllers
             menu.MenuName = item.MenuName;
             menu.Description = item.Description;
             menu.Price = item.Price;
-            menu.DateUpdated = item.DateUpdated;
+            menu.DateUpdated = DateTime.Now;
             menu.Qty = item.Qty;
-            menu.Restaurants = item.Restaurants;
+            menu.Restaurants = selectedRestaurants;
             menu.RestoId = item.RestoId;
+
 
             _context.Menus.Update(menu);
             _context.SaveChanges();
@@ -108,6 +110,8 @@ namespace SnatchFood.Controllers
 
         public IActionResult Delete(int? id)
         {
+            var obj = _context.Menus.Find(id);
+
             if (id == null)
             {
                 return RedirectToAction("Index");
@@ -119,9 +123,16 @@ namespace SnatchFood.Controllers
                 return RedirectToAction("Index");
             }
 
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot/img/food", obj.ImagePath);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+
             _context.Menus.Remove(menu);
             _context.SaveChanges();
-
             return RedirectToAction("Index");
         }
     }

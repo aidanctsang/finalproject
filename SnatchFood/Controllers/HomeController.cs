@@ -69,5 +69,35 @@ namespace SnatchFood.Controllers
             };
             return View(record);
         }
+
+        public IActionResult ViewFood(int? c)
+        {
+            var menu = _context.Menu
+                .Include(p => p.Restaurants)
+                .ToList();
+
+
+            if (c != null)
+            {
+                menu = menu.Where(p => p.RestoId == (int)c)
+                 .ToList();
+
+                //    menu = menu
+                //    .Where(p => p.Restaurants.RestaurantId == d)
+                //    .ToList();
+            }
+
+            var resto = _context.Restaurants
+                .OrderBy(c => c.RestaurantName)
+                .ToList();
+
+            var record = new FoodVM()
+            {
+                RestaurantList = resto,
+                MenuList = menu
+            };
+            return View(record);
+        }
+        
     }
 }

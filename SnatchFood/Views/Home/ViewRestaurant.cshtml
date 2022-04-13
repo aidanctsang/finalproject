@@ -50,7 +50,7 @@
                         <div class="card-body">
                             <h5 class="card-title">@(item.RestaurantName)</h5>
                             <p class="card-text">@(item.Category.Name)</p>
-                            <a href="@(Url.Action("Detail", "Home", new { id = item.RestaurantId }))"
+                            <a href="@(Url.Action("ViewFood", "Home", new { id = item.RestaurantId }))"
                                class="btn btn-primary">See Menu</a>
                         </div>
                     </div>

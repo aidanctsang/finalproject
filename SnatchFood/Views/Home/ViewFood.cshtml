@@ -5,38 +5,38 @@
     ViewData["Title"] = "View Food";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="container">
-    <div class="row">
-        <div class="col-xl-3">
-            <div class="card">
-                <div class="list-group">
-                    <a href="~/Home/ViewFood"
-                       class="list-group-item active d-flex justify-content-between align-items-center"
-                       style="text-decoration:none;"
-                       aria-current="true">
-                        All Categories
-                        <span class="badge badge-info badge-pill">
-                            @Model.RestaurantList.Count
-                        </span>
-                    </a>
-                    @foreach (var item in Model.RestaurantList)
-                    {
-                        var totalRecords = _context.Menus
-                            .Where(p => p.RestoId == item.RestaurantId)
-                            .ToList().Count;
-                        <a href="~/Home/ViewFood?c=@(item.RestaurantId)"
-                           class="list-group-item d-flex justify-content-between align-items-center"
-                           style="text-decoration:none;">
-                            @item.RestaurantName
+<form asp-action="ViewFood">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-3">
+                <div class="card">
+                    <div class="list-group">
+                        <a href="~/Home/ViewFood"
+                           class="list-group-item active d-flex justify-content-between align-items-center"
+                           style="text-decoration:none;"
+                           aria-current="true">
+                            All Restaurants
                             <span class="badge badge-info badge-pill">
-                                @totalRecords
+                                @Model.RestaurantList.Count
                             </span>
                         </a>
-                    }
+                        @foreach (var item in Model.RestaurantList)
+                        {
+                            var totalRecords = _context.Menus
+                                .Where(p => p.RestoId == item.RestaurantId)
+                                .ToList().Count;
+                            <a href="~/Home/ViewFood?c=@(item.RestaurantId)"
+                               class="list-group-item d-flex justify-content-between align-items-center"
+                               style="text-decoration:none;">
+                                @item.RestaurantName
+                                <span class="badge badge-info badge-pill">
+                                    @totalRecords
+                                </span>
+                            </a>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
             <div class="col-xl-9">
                 <div class="row">
                     @foreach (var item in Model.MenuList.OrderBy(p => p.MenuName).ToList())
@@ -48,11 +48,11 @@
                                      alt="@(item.MenuName)"
                                      style="height:200px;object-fit:cover;object-position:center;">
                                 <div class="card-body">
-                                    <h5 class="card-title">@(item.MenuName)</h5>
-                                    <p class="card-text">@(item.Description)</p>
-                                    <p class="card-text">@(item.Price.ToString("N"))</p>
-                                    <a href="@(Url.Action("Details", "Home", new { id = item.MenuId }))"
-                                       class="btn btn-primary">See Details</a>
+                                    <h5 class="card-title" asp-for="@item.MenuName">@(item.MenuName)</h5>
+                                    <p class="card-text" asp-for="@item.Description">@(item.Description)</p>
+                                    <p class="card-text" asp-for="@item.Price"> Price: ₱@(item.Price.ToString("N"))</p>
+                                    <p class="card-text" asp-for="@item.Qty">Qty: @(item.Qty)</p>
+                                    <input type="submit" value="Add to Cart" class="btn btn-primary" />
                                 </div>
                             </div>
                             <br /><br />
@@ -62,3 +62,4 @@
             </div>
         </div>
     </div>
+</form>

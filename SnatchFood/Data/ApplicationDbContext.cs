@@ -22,7 +22,7 @@ namespace SnatchFood.Data
         public DbSet<Orders> Orders { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Restaurants> Restaurants { get; set; }
-        public DbSet<Menu> Menu { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<CartItem> Cart { get; set; }
     }
 }

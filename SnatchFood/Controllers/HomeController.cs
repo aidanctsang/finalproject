@@ -72,7 +72,7 @@ namespace SnatchFood.Controllers
 
         public IActionResult ViewFood(int? c)
         {
-            var menu = _context.Menu
+            var menu = _context.Menus
                 .Include(p => p.Restaurants)
                 .ToList();
 
@@ -81,10 +81,6 @@ namespace SnatchFood.Controllers
             {
                 menu = menu.Where(p => p.RestoId == (int)c)
                  .ToList();
-
-                //    menu = menu
-                //    .Where(p => p.Restaurants.RestaurantId == d)
-                //    .ToList();
             }
 
             var resto = _context.Restaurants
@@ -96,8 +92,26 @@ namespace SnatchFood.Controllers
                 RestaurantList = resto,
                 MenuList = menu
             };
+
             return View(record);
         }
-        
+
+        [HttpPost]
+        public IActionResult ViewFood(CartItem record)
+        {
+            var cart = new CartItem()
+            {
+                MenuName = record.MenuName,
+                Description = record.Description,
+                Price = record.Price,
+                Qty = record.Qty,
+                Status = "In Cart"
+            };
+
+            _context.Cart.Add(cart);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Cart");
+        }
     }
 }

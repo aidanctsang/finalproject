@@ -9,9 +9,11 @@ using SnatchFood.Models;
 using SnatchFood.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SnatchFood.Controllers
 {
+    [Authorize]
     public class RestaurantController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -100,6 +102,8 @@ namespace SnatchFood.Controllers
 
         public IActionResult Delete(int? id)
         {
+            var obj = _context.Menus.Find(id);
+
             if (id == null)
             {
                 return RedirectToAction("Index");
@@ -109,6 +113,14 @@ namespace SnatchFood.Controllers
             if (resto == null)
             {
                 return RedirectToAction("Index");
+            }
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot/img/food", obj.ImagePath);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
             }
 
             _context.Restaurants.Remove(resto);

@@ -9,9 +9,11 @@ using SnatchFood.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SnatchFood.Controllers
 {
+    [Authorize]
     public class MenuController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -112,7 +114,7 @@ namespace SnatchFood.Controllers
         {
             var obj = _context.Menus.Find(id);
 
-            if (id == null)
+            if (obj == null)
             {
                 return RedirectToAction("Index");
             }

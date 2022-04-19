@@ -1,0 +1,23 @@
+﻿@model SnatchFood.Models.ViewModels.DetailsVM
+@inject SnatchFood.Data.ApplicationDbContext _context;
+
+<div>
+    <form method="post" asp-action="Details">
+        <input asp-for="@Model.Menu.MenuId" hidden />
+
+        <h1>Menu Name: @Model.Menu.MenuName</h1>
+        <input name="MenuName" value="@Model.Menu.MenuName" class="form-control" hidden />
+
+        <h1>Description: @Model.Menu.Description</h1>
+        <input name="Description" value="@Model.Menu.Description" class="form-control" hidden />
+
+        <h1>Price: ₱ @((Model.Menu.Price).ToString("N"))</h1>
+        <input name="Price" value="@Model.Menu.Price" class="form-control" hidden />
+
+        <h1>Qty: @Model.Menu.Qty</h1>
+        <input name="Qty" value="@Model.Menu.Qty" class="form-control" hidden />
+
+        <a asp-action="ViewFood" class="btn btn-success">Back to List</a>
+        <button type="submit" class="btn btn-info">Add to Cart</button>
+    </form>
+</div>

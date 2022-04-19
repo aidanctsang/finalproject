@@ -10,6 +10,8 @@ using SnatchFood.Models;
 using SnatchFood.Models.ViewModels;
 using SnatchFood.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Net.Mail;
 
 namespace SnatchFood.Controllers
 {
@@ -36,6 +38,36 @@ namespace SnatchFood.Controllers
 
         public IActionResult ContactUs()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ContactUs(Contact record)
+        {
+            MailMessage mail = new MailMessage()
+            {
+                From = new MailAddress("aidanctsang21@gmail.com", "The Administrator")
+            };
+            mail.To.Add(new MailAddress(record.Email));
+
+            mail.Subject = "Inquiry from " + record.Sender + " (" + record.Subject + ")";
+            string message = "Hello, " + record.Sender + "<br/><br/>" +
+                "We have received your inquiry. Here are the details: <br/><br/>" +
+                "Contact Number: " + record.ContactNo + "<br/><br/>" +
+                "Message:<br> " + record.Message + "<br/><br/>" +
+                "Please wait for our reply. Thank you.";
+
+            mail.Body = message;
+            mail.IsBodyHtml = true;
+
+            using SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential("aidanctsang21@gmail.com",
+                "QsvRPTu6jZyaYwS"),
+                EnableSsl = true
+            };
+            smtp.Send(mail);
+            ViewBag.Message = "Inquiry sent.";
             return View();
         }
 
@@ -96,16 +128,28 @@ namespace SnatchFood.Controllers
             return View(record);
         }
 
-        [HttpPost]
-        public IActionResult ViewFood(CartItem record)
+        public IActionResult Details(int id)
         {
+            DetailsVM details = new DetailsVM()
+            {
+                Menu = _context.Menus
+                .Where(u => u.MenuId == id).FirstOrDefault()
+            };
+
+            return View(details);
+        }
+
+        [HttpPost, ActionName("Details")]
+        public IActionResult DetailsPost(CartItem record)
+        {
+
             var cart = new CartItem()
             {
                 MenuName = record.MenuName,
                 Description = record.Description,
-                Price = record.Price,
-                Qty = record.Qty,
-                Status = "In Cart"
+                Qty = 1,
+                Status = "In Cart",
+                Price = record.Price
             };
 
             _context.Cart.Add(cart);

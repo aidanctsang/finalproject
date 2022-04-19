@@ -12,6 +12,7 @@ namespace SnatchFood.Models
         [Key]
         public int CartId { get; set; }
 
+        [Display(Name = "Menu Name")]
         public string MenuName { get; set; }
 
         public string Description { get; set; }

@@ -14,11 +14,5 @@ namespace SnatchFood.Models.ViewModels
 
         public List<CartItem> CartList { get; set; }
 
-        [Required(ErrorMessage = "Required field.")]
-        [DataType(DataType.EmailAddress, ErrorMessage = "Invalid format.")]
-        [Display(Name = "Email Address")]
-        public string Email { get; set; }
-
-
     }
 }

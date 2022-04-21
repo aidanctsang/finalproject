@@ -102,7 +102,7 @@ namespace SnatchFood.Controllers
 
         public IActionResult Delete(int? id)
         {
-            var obj = _context.Menus.Find(id);
+            var obj = _context.Restaurants.Find(id);
 
             if (id == null)
             {
@@ -116,7 +116,7 @@ namespace SnatchFood.Controllers
             }
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(),
-                        "wwwroot/img/food", obj.ImagePath);
+                        "wwwroot/img/restaurant", obj.ImagePath);
 
             if (System.IO.File.Exists(filePath))
             {

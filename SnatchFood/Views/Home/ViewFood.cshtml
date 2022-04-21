@@ -50,7 +50,7 @@
                                 <h5 class="card-title">@(item.MenuName)</h5>
                                 <p class="card-text">@(item.Description)</p>
                                 <p class="card-text"> Price: ₱ @(item.Price.ToString("N"))</p>
-                                <p class="card-text">Qty: @(item.Qty)</p>
+                                <p class="card-text" hidden>Qty: @(item.Qty)</p>
                                 <a href="@(Url.Action("Details", "Home", new { id = item.MenuId }))"
                                    class="btn btn-primary">See Details</a>
                             </div>
